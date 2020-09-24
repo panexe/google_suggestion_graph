@@ -100,7 +100,7 @@ def createGraph(query, filename, iterations=20, max_result_words=2, n_results=5,
                 UG.edges[node, ngbr]["weight"] = (11-G.edges[node, ngbr]["weight"] + G.edges[ngbr, node]["weight"])
     
     # get size of each bubble
-    targets = []
+    targets = [t5[0]["original_search_query"]]
     for e in t5:
         targets.append(e["target"])
     hist = Counter(targets)
@@ -130,6 +130,7 @@ parser.add_argument('--geocode', help="Geocode for google api", default="de")
 parser.add_argument('--lang', help="Language for google api", default="de")
 parser.add_argument('--font-color', help="Color of the labels", default="orange")
 parser.add_argument('--iterations', help="Number of searches for resulting targets", default=20)
+parser.add_argument('--no-compare', action="store_true", help="Just a normal map of topics no vs.")
 
 results = parser.parse_args()
 
@@ -140,6 +141,8 @@ max_result_words = results.max_result_words
 n_results = results.n_results
 filter_first_word = results.filter_first_word
 compare_str = results.compare_str
+if results.no_compare:
+    compare_str = ""
 geo_code = results.geocode
 language = results.lang
 font_color = results.font_color
